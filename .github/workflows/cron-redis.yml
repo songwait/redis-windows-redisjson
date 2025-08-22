@@ -28,12 +28,6 @@ jobs:
           $res = ConvertFrom-Json(Invoke-WebRequest -Headers @{'Authorization' = 'token ${{ secrets.GITHUB_TOKEN }}'} -Uri "https://api.github.com/repos/redis/redis/releases/latest").Content
           $currentVersion = Get-Content .github\redis_latest_version.txt
           
-          # 如果版本相同，则退出
-          If ($res.tag_name -eq $currentVersion) { 
-            Write-Output "No new version found. Current: $currentVersion"
-            echo "new_version_found=false" >> $env:GITHUB_OUTPUT
-            exit 0
-          }
           
           # 如果有新版本，设置输出变量
           echo "new_version_found=true" >> $env:GITHUB_OUTPUT
